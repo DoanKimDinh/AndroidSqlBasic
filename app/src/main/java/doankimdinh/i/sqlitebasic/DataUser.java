@@ -61,4 +61,28 @@ public class DataUser extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
+    public User getUserByID(int id){
+        User user = new User();
+        String select= "SELECT * FROM User WHERE ID = "+id;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                user.setId(cursor.getInt(0));
+                user.setName(cursor.getString(1));
+
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return user;
+    }
+    public int Update(User user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", user.getName());
+
+        return db.update("User", values, "Id"+"=?", new String[]{String.valueOf(user.getId())});
+    }
 }

@@ -60,14 +60,29 @@ public class MainActivity extends AppCompatActivity {
                 dataUser.removeUser((int)idList.get(index));
                 getNameList();
                 arrayAdapter.notifyDataSetChanged();
-                System.out.println(idList);
-//                Toast.makeText(MainActivity.this, idList.get(index)+"Xoa thanh cong"+index, Toast.LENGTH_SHORT).show();
+//               Toast.makeText(MainActivity.this, idList.get(index)+"Xoa thanh cong"+index, Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 index = i;
+                txtName.setText("doan ki dinh"+idList.get(i));
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                User user = dataUser.getUserByID((int)idList.get(index));
+                user.setName(txtName.getText().toString());
+                dataUser.Update(user);
+                getNameList();
+                arrayAdapter.notifyDataSetChanged();
             }
         });
     }
